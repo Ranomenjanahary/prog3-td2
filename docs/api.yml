@@ -57,7 +57,6 @@ components:
           type: string
     TeamResponse:
       type: object
-      $ref:
       properties:
         name:
           type: string
