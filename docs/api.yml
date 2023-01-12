@@ -1,83 +1,114 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
-  title: STD21024 Match API
-  description: 'API Specification'
+  title: Football API
   version: 1.0.0
-servers:
-  - url: https://localhost:8080.com
-tags:
-  - name: Team
-  - name: Match
-
 paths:
+  /matches:
+    get:
+      summary: Return the list of all matches
+      responses:
+        '200':
+          description: List of matchs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
   /teams:
     get:
-      tags:
-        - "Team"
-      description: get list of team with players
+      summary: Return the list of all teams
       responses:
-        200:
-          description: list of team with players
+        '200':
+          description: List of teams
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TeamResponse'
-  /matchs:
+                  $ref: '#/components/schemas/Team'
+  /players:
     get:
-      tags:
-        - "Match"
-      description: get list of all matchs
+      summary: Return the list of all players
       responses:
-        200:
-          description: list of all matchs
+        '200':
+          description: List of players
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/MatchResponse'
-
+                  $ref: '#/components/schemas/Player'
 components:
   schemas:
-    PlayerResponse:
+    Match:
       type: object
       properties:
-        id:
+        match_id:
           type: integer
-        name:
-          type: string
-    SponsorResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-    TeamResponse:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Madagascar
-        players:
-          type: array
-          $ref: '#/components/schemas/PlayerResponse'
-        sponsors:
-          type: array
-          $ref: '#/components/schemas/SponsorResponse'
-    MatchResponse:
-      type: object
-      properties:
+          description: Unique match identifier
+        home_team:
+          $ref: '#/components/schemas/Team'
+        away_team:
+          $ref: '#/components/schemas/Team'
         date:
           type: string
           format: date
+          description: Date of the match
         time:
           type: string
           format: time
-        competitor:
+          description: Hour of the match
+        score:
+          type: string
+          description: score of the match
+        scorers:
           type: array
           items:
-            type: string
-          example: ["Barca","Real"]
+            $ref: '#/components/schemas/Scorer'
+    Team:
+      type: object
+      properties:
+        team_id:
+          type: integer
+          description: Unique team identifier
+        name:
+          type: string
+          description: Name of the team
+        players:
+          type: array
+          items:
+            $ref: '#/components/schemas/Player'
+        sponsors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sponsor'
+    Player:
+      type: object
+      properties:
+        player_id:
+          type: integer
+          description: Unique player identifier
+        name:
+          type: string
+          description: Name of the player
+    Scorer:
+      type: object
+      properties:
+        scorer_id:
+          type: integer
+          description: Unique scorer identifier
+        name:
+          type: string
+          description: Name of the scorer
+        minute:
+          type: integer
+          description: Minute where the
+    Sponsor:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+

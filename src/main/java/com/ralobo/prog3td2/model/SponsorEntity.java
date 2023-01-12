@@ -22,5 +22,5 @@ public class SponsorEntity {
     private String name;
     @ManyToMany(mappedBy = "sponsors")
     @JsonIgnoreProperties("sponsors")
-    List<TeamEntity> books;
+    List<TeamEntity> teams;
 }
